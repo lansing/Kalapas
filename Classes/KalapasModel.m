@@ -27,9 +27,7 @@
 #pragma mark REST paths
 
 +(NSString *)modelPathUnderscoreSingular {
-  NSString * string = [[[self class] description] stringByReplacingOccurrencesOfString:@"Ollie" withString:@""];
-  string = [string dashedStringFromCamelCased];
-  return string; 
+  return [[[self class] description] dashedStringFromCamelCased];
 }
 
 +(NSString *)modelPathUnderscorePlural {
