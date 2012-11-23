@@ -41,7 +41,7 @@
 -(NSMutableURLRequest *)postRequest:(NSURL *)url body:(NSData *)body;
 -(NSMutableURLRequest *)putRequest:(NSURL *)url body:(NSData *)body;
 -(NSMutableURLRequest *)deleteRequest:(NSURL *)url;
--(NSMutableURLRequest *)multipartFormRequest:(NSURL *)url constructingBodyWithBlock:(void(^)(id<AFStreamingMultipartFormData> formData))block;
+-(NSMutableURLRequest *)multipartFormRequest:(NSURL *)url constructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))block;
 
 -(void)performRequest:(NSURLRequest *)request success:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure;
 
@@ -49,7 +49,7 @@
 -(void)put:(NSURL *)url body:(NSData *)body success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 -(void)get:(NSURL *)url success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 -(void)deleteRemote:(NSURL *)url success:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure;
--(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSInteger, long long, long long))uploadProgress;
+-(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress;
 
 
 @property NSTimeInterval timeoutInterval;

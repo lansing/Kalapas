@@ -8,7 +8,7 @@
 
 #import "KalapasJSONClient.h"
 #import "AFJSONRequestOperation.h"
-#import "AFJSONUtilities.h"
+//#import "AFJSONUtilities.h"
 #import "AFHTTPClient.h"
 
 @implementation KalapasJSONClient
@@ -87,7 +87,8 @@
 
 -(void)create:(NSDictionary *)createDict success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
   NSError * error = [NSError alloc];
-  NSData * createBodyData = AFJSONEncode(createDict, &error);
+//  NSData * createBodyData = AFJSONEncode(createDict, &error);
+  NSData * createBodyData = [NSJSONSerialization dataWithJSONObject:createDict options:0 error:&error];
   [self post:self.createURL body:createBodyData success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -105,7 +106,8 @@
 
 -(void)updateResourceID:(NSString *)resourceID parameters:(NSDictionary *)updateDict success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
   NSError * error = [NSError alloc];
-  NSData * updateBodyData = AFJSONEncode(updateDict, &error);
+//  NSData * updateBodyData = AFJSONEncode(updateDict, &error);
+  NSData * updateBodyData = [NSJSONSerialization dataWithJSONObject:updateDict options:0 error:&error];
   [self put:[self updateURL:resourceID] body:updateBodyData success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -159,7 +161,7 @@
   return request;
 }
 
--(NSMutableURLRequest *)multipartFormRequest:(NSURL *)url constructingBodyWithBlock:(void(^)(id<AFStreamingMultipartFormData> formData))block {
+-(NSMutableURLRequest *)multipartFormRequest:(NSURL *)url constructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))block {
   AFHTTPClient * httpClient = [[AFHTTPClient alloc] initWithBaseURL:url.baseURL];
   NSMutableURLRequest *request =  [httpClient multipartFormRequestWithMethod:@"POST" path:url.path parameters:nil constructingBodyWithBlock:block];
   return request;
@@ -192,9 +194,9 @@
   [self performRequest:[self deleteRequest:url] success:success failure:failure];
 }
 
--(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSInteger, long long, long long))uploadProgress {
+-(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress {
   
-  NSMutableURLRequest *request = [self multipartFormRequest:url constructingBodyWithBlock:^(id<AFStreamingMultipartFormData> formData) {
+  NSMutableURLRequest *request = [self multipartFormRequest:url constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     NSError * error;
     for (NSString * formName in formNames) {
       NSData * formDataElement = [formDatas objectAtIndex:[formNames indexOfObject:formName]];
@@ -214,7 +216,7 @@
     failure(operation, error);
   }];
   
-  [operation setUploadProgressBlock:^(NSInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+  [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
     uploadProgress(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
   }];
   

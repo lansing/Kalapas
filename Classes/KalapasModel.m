@@ -9,7 +9,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "AFHTTPClient.h"
 #import "KalapasJSONClient.h"
-#import "EMRESTModel.h"
+#import "KalapasModel.h"
 #import "NSString+Casing.h"
 #import "NSObject+EMSelectorGoodies.h"
 #import <objc/runtime.h>
