@@ -8,7 +8,6 @@
 
 #import "KalapasJSONClient.h"
 #import "AFJSONRequestOperation.h"
-//#import "AFJSONUtilities.h"
 #import "AFHTTPClient.h"
 
 @implementation KalapasJSONClient
@@ -87,7 +86,6 @@
 
 -(void)create:(NSDictionary *)createDict success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
   NSError * error = [NSError alloc];
-//  NSData * createBodyData = AFJSONEncode(createDict, &error);
   NSData * createBodyData = [NSJSONSerialization dataWithJSONObject:createDict options:0 error:&error];
   [self post:self.createURL body:createBodyData success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
@@ -106,7 +104,6 @@
 
 -(void)updateResourceID:(NSString *)resourceID parameters:(NSDictionary *)updateDict success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
   NSError * error = [NSError alloc];
-//  NSData * updateBodyData = AFJSONEncode(updateDict, &error);
   NSData * updateBodyData = [NSJSONSerialization dataWithJSONObject:updateDict options:0 error:&error];
   [self put:[self updateURL:resourceID] body:updateBodyData success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);

@@ -11,7 +11,6 @@
 @class AFHTTPRequestOperation;
 @class KalapasJSONClient;
 
-
 @interface KalapasModel : NSObject
 
 @property (readonly) NSDictionary * serializationDict;

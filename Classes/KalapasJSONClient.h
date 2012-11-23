@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPClient.h"
 
 @class AFHTTPRequestOperation;
+@protocol AFMultipartFormData;
 
 @interface KalapasJSONClient : NSObject
 
