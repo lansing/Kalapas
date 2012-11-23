@@ -3,7 +3,7 @@
 //  Ollie
 //
 //  Created by Max Lansing on 5/30/12.
-//  Copyright (c) 2012 Trigger Consulting. All rights reserved.
+//  Copyright (c) 2012 Empire Mining. All rights reserved.
 //
 
 #import "AFHTTPRequestOperation.h"

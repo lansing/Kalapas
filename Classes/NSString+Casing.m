@@ -3,7 +3,7 @@
 //  Ollie
 //
 //  Created by Max Lansing on 11/12/12.
-//  Copyright (c) 2012 Trigger Consulting. All rights reserved.
+//  Copyright (c) 2012 Empire Mining. All rights reserved.
 //
 
 #import "NSString+Casing.h"
