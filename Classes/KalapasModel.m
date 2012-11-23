@@ -13,6 +13,7 @@
 #import "NSString+Casing.h"
 #import "NSObject+EMSelectorGoodies.h"
 #import <objc/runtime.h>
+#import "ISO8601DateFormatter.h"
 
 @implementation KalapasModel
 
@@ -73,7 +74,7 @@
     id val = [self performSelector:NSSelectorFromString((NSString *)propKey)];
 #pragma clang diagnostic pop
     if ([val isKindOfClass:[NSDate class]]) {
-      val = [[[self class] jsonDateFormatterTZ] stringFromDate:val];
+      val = [[[ISO8601DateFormatter alloc] init] stringFromDate:val];
     }
     if (val != nil) {
       [d setObject:val forKey:propKey];
@@ -116,7 +117,7 @@
     if ([self respondsToSelector:setSet]) {
       Class propClass = [[self class] classForPropertyKey:key];
       if (propClass == [NSDate class]) {
-        obj = [[self class] dateFromString:obj];
+        obj = [[[ISO8601DateFormatter alloc] init] dateFromString:obj];
       }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -194,38 +195,6 @@
   }];
 }
 
-
-#pragma mark --
-#pragma mark JSON date<->string stuff
-
-+(NSDateFormatter *)jsonDateFormatterTZ {
-  static NSDateFormatter * formatter = NULL;
-  if (formatter == NULL) {
-    formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZ";
-  }
-  return formatter;
-}
-
-+(NSDateFormatter *)jsonDateFormatterUTC {
-  static NSDateFormatter * formatter = NULL;
-  if (formatter == NULL) {
-    formatter = [[NSDateFormatter alloc] init];
-    formatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-    formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
-  }
-  return formatter;
-}
-
-+(NSDate*)dateFromString:(NSString *)dateString {
-  NSRange colonRange = [dateString rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@":"] options:NSBackwardsSearch];
-  NSString * fixedString = [dateString stringByReplacingCharactersInRange:colonRange withString:@""];
-  NSDate * theDate = [[[self class] jsonDateFormatterTZ] dateFromString:fixedString];
-  if (theDate == nil) {
-    theDate = [[[self class] jsonDateFormatterUTC] dateFromString:dateString];
-  }
-  return theDate;
-}
 
 
 @end
