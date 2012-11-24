@@ -76,9 +76,10 @@
     if ([val isKindOfClass:[NSDate class]]) {
       val = [[[ISO8601DateFormatter alloc] init] stringFromDate:val];
     }
-    if (val != nil) {
-      [d setObject:val forKey:propKey];
+    if (val == nil) {
+      val = [NSNull null];
     }
+    [d setObject:val forKey:propKey];
   }];
   
   return [NSDictionary dictionaryWithDictionary:d];
