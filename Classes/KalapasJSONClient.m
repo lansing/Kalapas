@@ -31,6 +31,35 @@
 }
 
 #pragma mark -
+#pragma mark URL parameter encoding
+
++(NSString*)urlEscapeString:(NSString *)unencodedString
+{
+  CFStringRef originalStringRef = (__bridge_retained CFStringRef)unencodedString;
+  NSString *s = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,originalStringRef, NULL, NULL,kCFStringEncodingUTF8);
+  CFRelease(originalStringRef);
+  return s;
+}
+
+
++(NSURL*)addQueryStringToUrl:(NSURL *)url withDictionary:(NSDictionary *)dictionary
+{
+  NSMutableString * urlWithQueryString = [[NSMutableString alloc] initWithString:[url absoluteString]];
+  
+  for (id key in dictionary) {
+    NSString *keyString = [key description];
+    NSString *valueString = [[dictionary objectForKey:key] description];
+    
+    if ([urlWithQueryString rangeOfString:@"?"].location == NSNotFound) {
+      [urlWithQueryString appendFormat:@"?%@=%@", [self urlEscapeString:keyString], [self urlEscapeString:valueString]];
+    } else {
+      [urlWithQueryString appendFormat:@"&%@=%@", [self urlEscapeString:keyString], [self urlEscapeString:valueString]];
+    }
+  }
+  return [NSURL URLWithString:urlWithQueryString];
+}
+
+#pragma mark -
 #pragma mark Resource locations
 
 -(NSString *)showPath:(NSString *)resourceID {
@@ -76,12 +105,20 @@
 #pragma mark -
 #pragma mark REST methods
 
--(void)indexWithSuccess:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure{
+-(void)indexWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure{
+  NSURL * indexURL = self.indexURL;
+  if (parameters != nil) {
+    indexURL = [[self class] addQueryStringToUrl:indexURL withDictionary:parameters];
+  }
   [self get:self.indexURL success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     failure(error);
   }];
+}
+
+-(void)indexWithSuccess:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure{
+  [self indexWithParameters:nil success:success failure:failure];
 }
 
 -(void)create:(NSDictionary *)createDict success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {

@@ -28,7 +28,7 @@
 -(NSURL *)showURL:(NSString *)resourceID;
  
 
-
+-(void)indexWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure;
 -(void)indexWithSuccess:(void (^)(NSArray * resources))success failure:(void (^)(NSError *error))failure;
 -(void)create:(NSDictionary *)createDict success:(void (^) (NSDictionary * resource))success failure:(void (^)(NSError *error))failure;
 -(void)showResourceID:(NSString *)resourceID success:(void (^)(NSDictionary * resource))success failure:(void (^)(NSError *error))failure;
