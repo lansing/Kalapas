@@ -163,19 +163,24 @@
   }];
 }
 
-+(void)indexWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
++(void)indexWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
   KalapasJSONClient * client = [[self class] restClient];
-  [client indexWithSuccess:^(NSArray *resources) {
-    NSMutableArray * tempArray = [NSMutableArray arrayWithCapacity:[resources count]];
-    for (NSDictionary * itemDict in resources) {
-      KalapasModel * item = [[[self class] alloc] init];
-      [item assignPropertiesFromDict:itemDict];
-      [tempArray addObject:item];
-    }
-    success([NSArray arrayWithArray:tempArray]);
-  } failure:^(NSError *error) {
-    failure(error);
-  }];  
+  [client indexWithParameters:parameters
+                      success:^(NSArray *resources) {
+                        NSMutableArray * tempArray = [NSMutableArray arrayWithCapacity:[resources count]];
+                        for (NSDictionary * itemDict in resources) {
+                          KalapasModel * item = [[[self class] alloc] init];
+                          [item assignPropertiesFromDict:itemDict];
+                          [tempArray addObject:item];
+                        }
+                        success([NSArray arrayWithArray:tempArray]);
+                      }
+                      failure:failure];
+}
+
+
++(void)indexWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
+  [[self class] indexWithParameters:nil success:success failure:failure];
 }
 
 -(void)updateWithSuccess:(void (^)(id))success failure:(void (^)(NSError *))failure {
