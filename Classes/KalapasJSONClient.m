@@ -110,7 +110,7 @@
   if (parameters != nil) {
     indexURL = [[self class] addQueryStringToUrl:indexURL withDictionary:parameters];
   }
-  [self get:self.indexURL success:^(AFHTTPRequestOperation *operation, id responseObject) {
+  [self get:indexURL success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     failure(error);
