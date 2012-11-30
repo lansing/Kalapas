@@ -22,7 +22,7 @@
 +(NSDictionary *)associationTypeDict;
 -(void)assignPropertiesFromDict:(NSDictionary *)propertyDict;
 
-+(void)indexWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
++(void)indexWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure;
 +(void)indexWithSuccess:(void (^)(NSArray * indexArray))success failure:(void (^)(NSError *error))failure;
 -(void)showWithSuccess:(void (^)(id shownObject))success failure:(void (^)(NSError * error))failure;
 -(void)createWithSuccess:(void (^) (id createdObject))success failure:(void (^)(NSError *error))failure;
