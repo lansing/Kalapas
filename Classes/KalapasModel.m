@@ -74,7 +74,9 @@
     id val = [self performSelector:NSSelectorFromString((NSString *)propKey)];
 #pragma clang diagnostic pop
     if ([val isKindOfClass:[NSDate class]]) {
-      val = [[[ISO8601DateFormatter alloc] init] stringFromDate:val];
+      ISO8601DateFormatter * format = [[ISO8601DateFormatter alloc] init];
+      format.includeTime = YES;
+      val = [format stringFromDate:val];
     }
     if (val == nil) {
       val = [NSNull null];
