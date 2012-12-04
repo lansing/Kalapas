@@ -119,7 +119,7 @@
     SEL setSet = [[self class] setSelectorFromString:key];
     if ([self respondsToSelector:setSet]) {
       Class propClass = [[self class] classForPropertyKey:key];
-      if (propClass == [NSDate class]) {
+      if (propClass == [NSDate class] && obj != nil) {
         obj = [[[ISO8601DateFormatter alloc] init] dateFromString:obj];
       }
 #pragma clang diagnostic push
