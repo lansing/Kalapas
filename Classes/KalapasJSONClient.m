@@ -228,6 +228,34 @@
   [self performRequest:[self deleteRequest:url] success:success failure:failure];
 }
 
+-(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDict:(NSDictionary *)formDict withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress {
+
+  NSArray * rawFormNames = formDict.allKeys;
+  NSMutableArray * formNames = [NSMutableArray array];
+  NSMutableArray * formDatas = [NSMutableArray array];
+  
+  [rawFormNames enumerateObjectsUsingBlock:^(id formName, NSUInteger idx, BOOL *stop) {
+    id formData = [formDict objectForKey:formName];
+    if ([formData respondsToSelector:@selector(stringValue)]) {
+      formData = [formData stringValue];
+    }
+    if (formData != [NSNull null]) {
+      id formDataData = [formData dataUsingEncoding:NSUTF8StringEncoding];
+      [formNames addObject:formName];
+      [formDatas addObject:formDataData];
+    }
+  }];
+  
+  [self upload:url
+         files:filePaths
+     withNames:fileNames
+ withFormDatas:formDatas
+ withFormNames:formNames
+   withSuccess:success
+       failure:failure
+uploadProgress:uploadProgress];
+}
+
 -(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress {
   
   NSMutableURLRequest *request = [self multipartFormRequest:url constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {

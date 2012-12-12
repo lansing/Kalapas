@@ -50,6 +50,7 @@
 -(void)get:(NSURL *)url success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 -(void)deleteRemote:(NSURL *)url success:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure;
 -(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDatas:(NSArray *)formDatas withFormNames:(NSArray *)formNames withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress;
+-(void)upload:(NSURL *)url files:(NSArray *)filePaths withNames:(NSArray *)fileNames withFormDict:(NSDictionary *)formDict withSuccess:(void (^)(AFHTTPRequestOperation * operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation * operation, NSError * error))failure uploadProgress:(void (^)(NSUInteger, long long, long long))uploadProgress;
 
 
 @property NSTimeInterval timeoutInterval;
