@@ -52,6 +52,8 @@
 }
 
 -(KalapasModel *)relatedModelForProperty:(NSString*)propertyKey fromObj:(id)obj {
+  if (obj == nil)
+    return nil;
   Class relatedClass = [[self class] typeForRelatedModel:propertyKey];
   KalapasModel * model = [[relatedClass alloc] init];
   if ([obj isKindOfClass:[NSString class]]) {
@@ -101,7 +103,7 @@
     if (obj == [NSNull null]) {
       obj = nil;
     }
-
+    
     Class relatedClass = [[self class] typeForRelatedModel:key];
     if ([relatedClass isSubclassOfClass:[KalapasModel class]]) {
       if ([obj isKindOfClass:[NSArray class]]) {
