@@ -131,7 +131,7 @@
   }];
 }
 
--(void)showResourceID:(NSString *)resourceID success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
+-(void)showResourceID:(NSString *)resourceID success:(void (^)(NSDictionary * resource))success failure:(void (^)(NSError *))failure {
   [self get:[self showURL:resourceID] success:^(AFHTTPRequestOperation *operation, id responseObject) {
     success(responseObject);
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

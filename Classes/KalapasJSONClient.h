@@ -15,6 +15,8 @@
 
 +(KalapasJSONClient *)clientWithBaseURL:(NSURL *)baseURL resourcePath:(NSString *)resourcePath;
 
++(NSURL*)addQueryStringToUrl:(NSURL *)url withDictionary:(NSDictionary *)dictionary;
+
 -(NSString *)indexPath;
 -(NSString *)createPath;
 -(NSString *)updatePath:(NSString *)resourceID;
