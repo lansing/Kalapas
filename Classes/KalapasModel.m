@@ -32,7 +32,18 @@
 }
 
 +(NSString *)modelPathUnderscorePlural {
-  return [[[self class] modelPathUnderscoreSingular] stringByAppendingString:@"s"];
+  NSString * pathSingular = [[self class] modelPathUnderscoreSingular];
+  NSString * pathPlural = nil;
+  
+  NSError *error = NULL;
+  NSRegularExpression * yRegex = [NSRegularExpression regularExpressionWithPattern:@"y$" options:0 error:&error];
+  if ([yRegex numberOfMatchesInString:pathSingular options:0 range:NSMakeRange(0, pathSingular.length)] > 0) {
+    pathPlural = [yRegex stringByReplacingMatchesInString:pathSingular options:0 range:NSMakeRange(0, [pathSingular length]) withTemplate:@"ies"];
+  } else {
+    pathPlural = [[[self class] modelPathUnderscoreSingular] stringByAppendingString:@"s"];
+  }
+  
+  return pathPlural;
 }
 
 
